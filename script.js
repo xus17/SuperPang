@@ -206,7 +206,7 @@ function ganar(){
   document.body.style.backgroundImage = "url('./Img/victoria.gif')";
   document.getElementById("audio2").src="./Musica/crab-rave.mp3";
   document.getElementById("audio2").play();
-  setTimeout(function(){ location.assign("Index.html"); },11000);
+  setTimeout(function(){ location.assign("index.html"); },11000);
 }
 
 
@@ -215,5 +215,5 @@ function perder(){
   document.body.style.backgroundImage = "url('./Img/perder.gif')";
   document.getElementById("audio2").src="./Musica/muerte.mp3";
   document.getElementById("audio2").play();
-  setTimeout(function(){ location.assign("Index.html"); },4000);
+  setTimeout(function(){ location.assign("index.html"); },4000);
 }
