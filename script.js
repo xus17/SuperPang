@@ -133,7 +133,8 @@ function animaTodasBolas(){
       for(let i =0;i<bolas.length;i++){
         var bola = bolas[i];
         if(parseInt(bola.y) >document.getElementById("svg").getBoundingClientRect().height-120){
-          if((parseInt(bola.x+25) >jugador.x) && (parseInt(bola.x-25)<jugador.x)){
+          //if((parseInt(bola.x+25) >=jugador.x) && (parseInt(bola.x-25)<=jugador.x)){
+          if(((parseInt(bola.x)<=jugador.x)&&(parseInt(bola.x)>=jugador.x-30))||((parseInt(bola.x)>=jugador.x+110)&&(parseInt(bola.x)<=jugador.x+120))||((parseInt(bola.x)>=jugador.x)&&(parseInt(bola.x)<=jugador.x+110))){
             perder();
           }
         }
