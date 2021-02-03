@@ -63,6 +63,7 @@ class Jugador {
     document.getElementsByTagName("svg")[0].appendChild(this.rect);
   }
 
+  //Método para al pulsar una tecla se mueva el muñeco o dispare
   mover(tecla,bolas) {
          if ((tecla.keyCode === 97 && this.x - this.velX >= 0 ) || (tecla.keyCode === 65 && this.x - this.velX >= 0 )) {
              this.x = this.x - this.velX;
@@ -114,13 +115,16 @@ function bucleprincipal(){
   disparar();
 }
 
-function animaTodasBolas(){
-  for(let i=0;i<bolas.length;i++){
+//Funcion con  la que se dibujan todas las bolas
+  function animaTodasBolas(){
+    for(let i=0;i<bolas.length;i++){
       bolas[i].dibuja();
     }
     colision(bolas);
   }
 
+// Funcion en la que se envia a la funcion chocar bolas dos bolas diferentes
+// para comprobar la colisión
   function colision(bolas){
     for(let i=0;i<bolas.length;i++){
       for(let j=0;j<bolas.length;j++){
@@ -129,18 +133,8 @@ function animaTodasBolas(){
     }
   }
 
-  function comprobarColision(){
-      for(let i =0;i<bolas.length;i++){
-        var bola = bolas[i];
-        if(parseInt(bola.y) >document.getElementById("svg").getBoundingClientRect().height-120){
-          //if((parseInt(bola.x+25) >=jugador.x) && (parseInt(bola.x-25)<=jugador.x)){
-          if(((parseInt(bola.x)<=jugador.x)&&(parseInt(bola.x)>=jugador.x-30))||((parseInt(bola.x)>=jugador.x+110)&&(parseInt(bola.x)<=jugador.x+120))||((parseInt(bola.x)>=jugador.x)&&(parseInt(bola.x)<=jugador.x+110))){
-            perder();
-          }
-        }
-      }
-  }
 
+//Funcion que comprueba la colision de dos bolas y le da una direccion a cada una.
   function chocarBolas(a,b){
     if (Math.sqrt(((a.x-b.x)**2)+((a.y-b.y)**2)) <= a.r + b.r) {
 
@@ -160,18 +154,21 @@ function animaTodasBolas(){
       }
 }
 
-function disparar(){
-  for(let i=0;i<disparos.length;i++){
-    disparos[i].y -= 10;
-    disparos[i].circ.setAttribute("cy",disparos[i].y);
-    if(disparos[i].y<20){
-      disparos[i].circ.setAttributeNS(null,"cx",-500);
-      disparos.splice(i,1);
+//Funcion que crea un disparo.
+  function disparar(){
+    for(let i=0;i<disparos.length;i++){
+      disparos[i].y -= 10;
+      disparos[i].circ.setAttribute("cy",disparos[i].y);
+      if(disparos[i].y<20){
+        disparos[i].circ.setAttributeNS(null,"cx",-500);
+        disparos.splice(i,1);
+      }
     }
+      choquedisparo();
   }
-    choquedisparo();
-}
 
+//Funcion que comprueba si un disparo da con una bola y la borra tanto la bola
+//como el disparo.
   function choquedisparo(){
     for (var i=0;i<bolas.length;i++){
       for(var j=0;j<disparos.length;j++){
@@ -202,19 +199,36 @@ function disparar(){
   }
 }
 
-function ganar(){
-  document.getElementById("svg").style.visibility = "hidden";
-  document.body.style.backgroundImage = "url('./Img/victoria.gif')";
-  document.getElementById("audio2").src="./Musica/crab-rave.mp3";
-  document.getElementById("audio2").play();
-  setTimeout(function(){ location.assign("index.html"); },11000);
-}
+// Funcion  en la que se comprueba si una bola le da al jugador
+  function comprobarColision(){
+      for(let i =0;i<bolas.length;i++){
+        var bola = bolas[i];
+        if(parseInt(bola.y) >document.getElementById("svg").getBoundingClientRect().height-120){
+          if(((parseInt(bola.x)<=jugador.x)&&(parseInt(bola.x)>=jugador.x-30))||
+          ((parseInt(bola.x)>=jugador.x+110)&&(parseInt(bola.x)<=jugador.x+120))
+          ||((parseInt(bola.x)>=jugador.x)&&(parseInt(bola.x)<=jugador.x+110))){
+            perder();
+          }
+        }
+      }
+  }
 
+//Funcion que al eliminar todas las bolas esconde el svg y cambia tanto la Musica
+//como el fondo y te redirecciona a la pantalla de carga principal.
+  function ganar(){
+    document.getElementById("svg").style.visibility = "hidden";
+    document.body.style.backgroundImage = "url('./Img/victoria.gif')";
+    document.getElementById("audio2").src="./Musica/crab-rave.mp3";
+    document.getElementById("audio2").play();
+    setTimeout(function(){ location.assign("index.html"); },11000);
+  }
 
-function perder(){
-  document.getElementById("svg").style.visibility = "hidden";
-  document.body.style.backgroundImage = "url('./Img/perder.gif')";
-  document.getElementById("audio2").src="./Musica/muerte.mp3";
-  document.getElementById("audio2").play();
-  setTimeout(function(){ location.assign("index.html"); },4000);
-}
+//Funcion que al perder por colision de una bola con el muñeco esconde el svg
+//y cambia tanto la musica como el fondo y te redirecciona a la pantalla de carga principal.
+  function perder(){
+    document.getElementById("svg").style.visibility = "hidden";
+    document.body.style.backgroundImage = "url('./Img/perder.gif')";
+    document.getElementById("audio2").src="./Musica/muerte.mp3";
+    document.getElementById("audio2").play();
+    setTimeout(function(){ location.assign("index.html"); },4000);
+  }
